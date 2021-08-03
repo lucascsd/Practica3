@@ -52,34 +52,13 @@ bool_t ledSequenceOn(controlSequence_t *controlSequence)
 	/* Sentido inverso de la secuencia */
 	else if( actualizarKeyFSM ( &teclaCUATRO ) ){
 		controlSequence->inverted = TRUE;
+		led->sentidoSec = controlSequence->inverted;
 	}
 
 	switch(mode){
 
 	case NORMAL:
-		if ( controlSequence->inverted ) ledIndex--;  /* Secuencia invertida */
-		else ledIndex++;  /* Secuencia normal */
-
-		/* ledIndex no debe exceder limite superior lastLed */
-		if ( ledIndex >= controlSequence->lastLed ) ledIndex = 0;
-		/* ledIndex no debe exceder limite inferior 0 */
-		else if ( ledIndex < 0 ) ledIndex = controlSequence->lastLed - 1;
-
-		if(delayRead(&ledDelay)){
-			/* Se apagan todos los LEDs de la secuencia*/
-			if ( !ledsOff(controlSequence->ledSequence, controlSequence->lastLed) ) return FALSE;
-			/* Para encender en simultaneo el led rojo y amarillo */
-			if ( ledIndex == RED_YELLOW_LED ) {
-				if ( !ledOn ( controlSequence->ledSequence[ledIndex-1] ) ) return FALSE;
-			}
-
-			/* Se enciende el LED correspondiente de la secuencia */
-			if ( !ledOn ( controlSequence->ledSequence[ledIndex] ) ) return FALSE;
-
-			controlSequence->ledIndex = ledIndex;  // Se actualiza el indice del led que fue activado
-			if ( !updateSemaforoFSM ( ledSecuencia ) )  return FALSE;
-			delayInit ( &ledDelay, controlSequence->onTime[ledIndex] );
-		}
+		if ( !updateSemaforoFSM ( ledSecuencia ) )  return FALSE;
 		break;
 
 	case DESCONECTADO:

@@ -24,6 +24,7 @@ typedef struct
 {
 	stateSemaforo_t secuenciaLed;
 	tick_t 			retardoLed;
+	bool_t			sentidoSec;
 }ledFSM_t ;
 
 ledFSM_t ledSecuencia;

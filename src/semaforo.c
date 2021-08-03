@@ -12,7 +12,7 @@ const gpioMap_t ledArray[] = { LED1, LED2, LED3 };
 
 ledFSM_t initSemaforoFSM ( ){
 
-	ledFSM_t led = {RED_LED, NORMAL_ON_TIME_RED};
+	ledFSM_t led = {RED_LED, NORMAL_ON_TIME_RED, TRUE};
 
 	return led;
 }
@@ -33,12 +33,21 @@ bool_t updateSemaforoFSM ( ledFSM_t * led ){
 
 	case RED_LED:
 		if ( delayRead( &noBloqRetardo ) ){
-			led->secuenciaLed = RED_YELLOW_LED;
-			led->retardoLed = NORMAL_ON_TIME_RED_YELLOW;
+			if ( led->sentidoSec ){
+				led->secuenciaLed = RED_YELLOW_LED;
+				led->retardoLed = NORMAL_ON_TIME_RED_YELLOW;
+			else{
+				led->secuenciaLed = YELLOW_LED;
+				led->retardoLed = NORMAL_ON_TIME_YELLOW;
+			}
 			delayWrite ( &noBloqRetardo, led->retardoLed );
 		}else{
 			if ( !ledsOff( ledArray, cantidadLeds ) ) return FALSE;
-			if ( !ledOn ( ledArray[LED1] ) ) return FALSE;
+			if ( led->sentidoSec ) {
+				if ( !ledOn ( ledArray[LED1] ) ) return FALSE;
+			}else{
+				if ( !ledOn ( ledArray[LED2] ) ) return FALSE;
+			}
 		}
 		break;
 
