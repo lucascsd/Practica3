@@ -7,7 +7,7 @@
 #ifndef __EJERCICIO3_H__
 #define __EJERCICIO3_H__
 
-#include "secuencias.h"
+#include "semaforo.h"
 #include "sapi.h"
 
 //#define PUNTO_2	// Descomentar para correr el punto 2 del ejercicio
@@ -26,9 +26,9 @@
 #define OFF_TIME		500
 
 #define RED_LED						LED1
-#define RED_YELLOW_LED				LED2
-#define GREEN_LED					LED3
 #define YELLOW_LED					LED2
+#define GREEN_LED					LED3
+
 #define NORMAL_ON_TIME_RED			3000
 #define NORMAL_ON_TIME_RED_YELLOW	500
 #define NORMAL_ON_TIME_YELLOW		500

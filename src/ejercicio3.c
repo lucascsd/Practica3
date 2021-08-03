@@ -36,6 +36,9 @@ int main( void )
     teclaTRES 	= inicializarKeyFSM ( TEC3 );
     teclaCUATRO = inicializarKeyFSM ( TEC4 );
 
+    // Se inicializa la MEF de las teclas
+	ledSecuencia = initSemaforoFSM ();
+	
 	/* Apagado de leds y captura de errores de apagado */
     if ( !ledsOff( controlSequenceLeds.ledSequence, controlSequenceLeds.lastLed) ) blinkError ( ERROR_OFF );
 

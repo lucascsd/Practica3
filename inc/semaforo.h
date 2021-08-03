@@ -26,6 +26,8 @@ typedef struct
 	tick_t 			retardoLed;
 }ledFSM_t ;
 
+ledFSM_t ledSecuencia;
+
 #define NORMAL_ON_TIME_RED			3000
 #define NORMAL_ON_TIME_RED_YELLOW	500
 #define NORMAL_ON_TIME_YELLOW		500

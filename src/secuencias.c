@@ -36,16 +36,6 @@ bool_t ledSequenceOn(controlSequence_t *controlSequence)
 
 	if( ledIndex >= controlSequence->lastLed ) return FALSE;  // Se comprueba que el indice del LED este dentro de los valores posibles de la secuencia
 
-//	/* Se cambia el modo de la secuencia */
-//	if(keyPressed(KEY2)){
-//		modeSeqIndex += 1;
-//		if(modeSeqIndex > ((sizeof(modeSequence)/sizeof(modeSt_t)) - 1)) modeSeqIndex = 0;
-//
-//		mode = modeSequence[modeSeqIndex];
-//		if(mode == NORMAL) controlSequence->ledIndex = 0;
-//	}
-
-	/* Se actualiza la MEF de la tecla pasada por argunmento */
 	if ( actualizarKeyFSM ( &teclaDOS ) ){
 		modeSeqIndex += 1;
 		if(modeSeqIndex > ((sizeof(modeSequence)/sizeof(modeSt_t)) - 1)) modeSeqIndex = 0;
@@ -79,7 +69,7 @@ bool_t ledSequenceOn(controlSequence_t *controlSequence)
 			/* Se apagan todos los LEDs de la secuencia*/
 			if ( !ledsOff(controlSequence->ledSequence, controlSequence->lastLed) ) return FALSE;
 			/* Para encender en simultaneo el led rojo y amarillo */
-			if ( ledIndex == 1 ) {
+			if ( ledIndex == RED_YELLOW_LED ) {
 				if ( !ledOn ( controlSequence->ledSequence[ledIndex-1] ) ) return FALSE;
 			}
 
@@ -87,7 +77,7 @@ bool_t ledSequenceOn(controlSequence_t *controlSequence)
 			if ( !ledOn ( controlSequence->ledSequence[ledIndex] ) ) return FALSE;
 
 			controlSequence->ledIndex = ledIndex;  // Se actualiza el indice del led que fue activado
-
+			if ( !updateSemaforoFSM ( ledSecuencia ) )  return FALSE;
 			delayInit ( &ledDelay, controlSequence->onTime[ledIndex] );
 		}
 		break;
